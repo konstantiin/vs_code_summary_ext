@@ -1,7 +1,7 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
-import * as https from 'node:https';
+import * as http from 'node:http';
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -17,8 +17,7 @@ export function activate(context: vscode.ExtensionContext) {
 		if (editor) {
 			const document = editor.document;
 			text = document.getText();
-		}
-    console.log(text);
+    }
     return text;
   }
 	let disposable = vscode.commands.registerCommand('ai-summary.helloWorld', (arg) => {
@@ -28,34 +27,33 @@ export function activate(context: vscode.ExtensionContext) {
       console.log("No fileis opened, or some cringe occured");
       return;
     }
-    postData = JSON.stringify(
+    
+    let req = http.request(
       {
-        text: postData
-      }
-    );
-    let req = https.request(
-      {
-        hostname: 'stackoverflow.com',
+        hostname: 'localhost',
         port: 8080,
-        path: '/',
+        path: '/awesome_war/control',
         method: 'POST',
         headers: {
-             'Content-Type': 'application/x-www-form-urlencoded',
+             'Content-Type': 'application/json',
              'Content-Length': postData.length
            }
       },
       (res) =>{
-        console.log('statusCode:', res.statusCode);
-        console.log('headers:', res.headers);
-
-        res.on('data', (d) => {
-          process.stdout.write(d);// display result somehow
-        });
-      }
+          console.log('statusCode:', res.statusCode);
+          console.log('headers:', res.headers);
+          res.on('data', (chunk) => {
+            console.log(`BODY: ${chunk}`);
+          });
+          res.on('end', () => {
+            console.log('No more data in response.');
+          });
+        }
     );
     req.on('error', (e) => {
       console.error(e);
     });
+    req.write(postData);
     req.end();
     
 	});

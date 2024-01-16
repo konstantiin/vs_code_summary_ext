@@ -20,7 +20,7 @@ export function activate(context: vscode.ExtensionContext) {
     }
     return text;
   }
-	let disposable = vscode.commands.registerCommand('ai-summary.helloWorld', (arg) => {
+	let disposable = vscode.commands.registerCommand('ai-summary.summarize', (arg) => {
     console.log(arg);
     let postData = getTextToSummarize();
     if (postData === null){
@@ -42,10 +42,13 @@ export function activate(context: vscode.ExtensionContext) {
       (res) =>{
           console.log('statusCode:', res.statusCode);
           console.log('headers:', res.headers);
+          var ans = "";
           res.on('data', (chunk) => {
             console.log(`BODY: ${chunk}`);
+            ans += chunk;
           });
           res.on('end', () => {
+            vscode.window.showInformationMessage(`${ans}`);
             console.log('No more data in response.');
           });
         }

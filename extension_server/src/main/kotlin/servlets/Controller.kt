@@ -28,6 +28,7 @@ class Controller: HttpServlet() {
             File("E:\\projects\\vs_code_ext\\logs.txt").writeText("редирект...")
             servletContext.getRequestDispatcher("/response").forward(request, response)
         } catch ( e: Exception){
+            File("E:\\projects\\vs_code_ext\\logs.txt").writeText("ошибка:")
             File("E:\\projects\\vs_code_ext\\logs.txt").writeText(e.toString())
 
         }

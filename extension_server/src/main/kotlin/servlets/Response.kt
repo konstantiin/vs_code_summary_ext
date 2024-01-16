@@ -14,7 +14,7 @@ class Response: HttpServlet() {
         File("E:\\projects\\vs_code_ext\\logs.txt").writeText("ща отправим ответ")
         if (request.getAttribute("summary") != null) {
             print(request.getAttribute("summary"))
-            File("E:\\projects\\vs_code_ext\\log.txt").writeText(request.getAttribute("summary") as String)
+            File("E:\\projects\\vs_code_ext\\logs.txt").writeText(request.getAttribute("summary") as String)
             response.writer.print(request.getAttribute("summary"))
         }
     }

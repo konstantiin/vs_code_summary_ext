@@ -14,8 +14,8 @@
   "contributes": {
     "commands": [
       {
-        "command": "ai-summary.helloWorld",
-        "title": "Hello World"
+        "command": "ai-summary.summarize",
+        "title": "Summarize current file"
       }
     ]
   },

@@ -7,8 +7,6 @@ import javax.servlet.http.HttpServlet
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 import kotlinx.serialization.json.Json
-
-
 @WebServlet(name = "ControllerServlet", urlPatterns = ["/control"])
 class Controller: HttpServlet() {
     override fun doPost(request: HttpServletRequest, response: HttpServletResponse) {

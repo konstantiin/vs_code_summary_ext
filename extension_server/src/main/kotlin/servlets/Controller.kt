@@ -1,17 +1,20 @@
 package servlets
 
+import mu.KotlinLogging
 import summarization.SummaryGetter
-import java.io.File
 import javax.servlet.annotation.WebServlet
 import javax.servlet.http.HttpServlet
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
-import kotlinx.serialization.json.Json
 @WebServlet(name = "ControllerServlet", urlPatterns = ["/control"])
 class Controller: HttpServlet() {
+    private val logger = KotlinLogging.logger {}
     override fun doPost(request: HttpServletRequest, response: HttpServletResponse) {
         try {
-            File("E:\\projects\\vs_code_ext\\logs.txt").writeText("пришёл post")
+            val userDirectory = System.getProperty("user.dir")
+            logger.debug(userDirectory)
+            request.setAttribute("error", false)
+            logger.info("HTTP Post received")
             val sb = StringBuilder()
             val reader = request.reader
             var line: String?
@@ -20,15 +23,14 @@ class Controller: HttpServlet() {
             }
 
             val input = sb.toString()
-            val summaryGetter: SummaryGetter = SummaryGetter()
+            val summaryGetter = SummaryGetter()
             request.setAttribute("summary", summaryGetter.getSummary(input))
-            File("E:\\projects\\vs_code_ext\\logs.txt").writeText(input)
-            File("E:\\projects\\vs_code_ext\\logs.txt").writeText("редирект...")
+            logger.info("Redirecting to send response..")
             servletContext.getRequestDispatcher("/response").forward(request, response)
         } catch ( e: Exception){
-            File("E:\\projects\\vs_code_ext\\logs.txt").writeText("ошибка:")
-            File("E:\\projects\\vs_code_ext\\logs.txt").writeText(e.toString())
-
+            logger.error(e.toString())
+            request.setAttribute("error", true)
+            servletContext.getRequestDispatcher("/response").forward(request, response)
         }
     }
 

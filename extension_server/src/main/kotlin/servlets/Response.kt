@@ -1,7 +1,7 @@
 package servlets
 
 
-import java.io.File
+import mu.KotlinLogging
 import javax.servlet.annotation.WebServlet
 import javax.servlet.http.HttpServlet
 import javax.servlet.http.HttpServletRequest
@@ -9,13 +9,18 @@ import javax.servlet.http.HttpServletResponse
 
 @WebServlet(name = "ResponseServlet", urlPatterns = ["/response"])
 class Response: HttpServlet() {
+    private val logger = KotlinLogging.logger {}
     override fun doPost(request: HttpServletRequest, response: HttpServletResponse) {
         response.contentType = "text/html"
-        File("E:\\projects\\vs_code_ext\\logs.txt").writeText("ща отправим ответ")
-        if (request.getAttribute("summary") != null) {
-            print(request.getAttribute("summary"))
-            File("E:\\projects\\vs_code_ext\\logs.txt").writeText(request.getAttribute("summary") as String)
+        logger.info("Sending answer")
+        if (!(request.getAttribute("error") as Boolean)
+            && request.getAttribute("summary") != null) {
+
             response.writer.print(request.getAttribute("summary"))
+        }
+        else{
+            logger.info("Error message send")
+            response.sendError(500)
         }
     }
 

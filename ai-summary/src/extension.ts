@@ -14,47 +14,56 @@ export function activate(context: vscode.ExtensionContext) {
 	function getTextToSummarize(){
     const editor = vscode.window.activeTextEditor;
     let text = null;
-		if (editor) {
-			const document = editor.document;
-			text = document.getText();
+    const selection = editor?.selection
+		if (selection && !selection.isEmpty) {
+      const selectionRange = new vscode.Range(
+        selection.start.line, selection.start.character, 
+        selection.end.line, selection.end.character);
+      text = editor.document.getText(selectionRange);
+    }
+    else if (selection?.isEmpty){
+      text = editor?.document?.getText();
     }
     return text;
   }
+
+
 	let disposable = vscode.commands.registerCommand('ai-summary.summarize', (arg) => {
     console.log(arg);
     let postData = getTextToSummarize();
-    if (postData === null){
-      console.log("No fileis opened, or some cringe occured");
+    if (postData === null || postData === undefined){
+      vscode.window.showInformationMessage("");
+      vscode.window.showErrorMessage("No text to summarize")
       return;
     }
-    
+    vscode.window.showInformationMessage("Processing your data...  \n(^◕ᴥ◕^)(^◕ᴥ◕^)")
     let req = http.request(
       {
         hostname: 'localhost',
         port: 8080,
         path: '/awesome_war/control',
-        method: 'POST',
+        method: 'POST', 
         headers: {
              'Content-Type': 'application/json',
              'Content-Length': postData.length
            }
       },
       (res) =>{
-          console.log('statusCode:', res.statusCode);
-          console.log('headers:', res.headers);
+          
           var ans = "";
           res.on('data', (chunk) => {
             console.log(`BODY: ${chunk}`);
             ans += chunk;
           });
           res.on('end', () => {
+            vscode.window.showInformationMessage("Enjoy your summary! ฅ^•ﻌ•^ฅ \n")
             vscode.window.showInformationMessage(`${ans}`);
-            console.log('No more data in response.');
           });
         }
     );
     req.on('error', (e) => {
       console.error(e);
+      vscode.window.showErrorMessage("HTTP Connection error.(っ - ‸ - ς) ")
     });
     req.write(postData);
     req.end();

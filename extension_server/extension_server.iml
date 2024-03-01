@@ -26,5 +26,7 @@
     <orderEntry type="library" name="KotlinJavaRuntime" level="project" />
     <orderEntry type="library" name="javax.servlet-api-4.0.1" level="project" />
     <orderEntry type="library" name="jetbrains.kotlinx.serialization.json" level="project" />
+    <orderEntry type="library" name="io.github.microutils.kotlin.logging.jvm" level="project" />
+    <orderEntry type="library" name="ch.qos.logback.classic" level="project" />
   </component>
 </module>

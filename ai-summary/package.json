@@ -17,7 +17,13 @@
         "command": "ai-summary.summarize",
         "title": "Summarize current file"
       }
-    ]
+    ],
+    "menus": {
+      "editor/context": [{
+        "command": "ai-summary.summarize",
+        "group": "navigation"
+      }]
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",

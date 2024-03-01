@@ -3,7 +3,6 @@ from transformers import pipeline
 
 
 if __name__ == "__main__":
-    print("Python running", file=sys.stderr)
     with open(sys.argv[1], "r+") as f:
         inp = f.read()
     summarizer = pipeline("summarization", model="sshleifer/distilbart-cnn-12-6")

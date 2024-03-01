@@ -1,6 +1,7 @@
 # ai-summary README
 
-This is the README for your extension "ai-summary". After writing up a brief description, we recommend including the following sections.
+This is the README for your extension "ai-summary".
+This extension provide ai-assistan: you now can skip reading large text, instead ask ai to summarize it for you.
 
 ## Features
 

@@ -16,7 +16,8 @@ summarizer = pipeline("summarization", model="sshleifer/distilbart-cnn-12-6")
 
 @app.route("/get-summary", methods=['POST'])
 def hello():
-    data = request.form["textToSummarize"]
+    print(request.get_json()["textToSummarize"])
+    data = request.get_json()["textToSummarize"]
     
     response = summarizer(data, max_length=130, min_length=30, do_sample=False)[0]['summary_text']
     return response

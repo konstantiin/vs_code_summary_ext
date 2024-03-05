@@ -1,0 +1,35 @@
+version: "3"
+services:
+  registration:
+    build: eureka-server/
+    ports:
+      - 8761:8761
+    networks:
+      - app
+  gateway:
+    build: api-gateway/
+    ports:
+      - 8080:8080
+    depends_on:
+      - registration
+    networks:
+      - app
+  client:
+    build: client-listener/
+    ports:
+      - 8081:8081
+    depends_on:
+      - registration
+    networks:
+      - app
+  model:
+    build: model/
+    ports:
+      - 8050:8050
+    depends_on:
+      - registration
+    networks:
+      - app
+networks:
+  app:
+    driver: bridge

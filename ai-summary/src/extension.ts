@@ -49,8 +49,8 @@ export function activate(context: vscode.ExtensionContext) {
     let req = http.request(
       {
         hostname: 'localhost',
-        port: 8050,
-        path: '/text',
+        port: 8080,
+        path: '/get-summary-service/get-summary',
         method: 'POST', 
         headers: {
              'Content-Type': 'application/json',

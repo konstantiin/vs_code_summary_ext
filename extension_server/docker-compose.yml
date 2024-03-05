@@ -30,6 +30,13 @@ services:
       - registration
     networks:
       - app
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [ gpu ]
 networks:
   app:
     driver: bridge

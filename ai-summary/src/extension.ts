@@ -3,6 +3,7 @@
 import * as vscode from 'vscode';
 import * as http from 'node:http';
 
+
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
@@ -26,11 +27,19 @@ export function activate(context: vscode.ExtensionContext) {
     }
     return text;
   }
+  function getJsonTextToSummarize(){
+    var text = getTextToSummarize();
+    var model = "default"; // maybe later supported
+    var data = {modelName: model, textToSummarize: text};
+
+    return JSON.stringify(data);
+  }
 
 
 	let disposable = vscode.commands.registerCommand('ai-summary.summarize', (arg) => {
     console.log(arg);
-    let postData = getTextToSummarize();
+    let postData = getJsonTextToSummarize();
+    console.log(postData);
     if (postData === null || postData === undefined){
       vscode.window.showInformationMessage("");
       vscode.window.showErrorMessage("No text to summarize")
@@ -40,8 +49,8 @@ export function activate(context: vscode.ExtensionContext) {
     let req = http.request(
       {
         hostname: 'localhost',
-        port: 8080,
-        path: '/awesome_war/control',
+        port: 8050,
+        path: '/text',
         method: 'POST', 
         headers: {
              'Content-Type': 'application/json',

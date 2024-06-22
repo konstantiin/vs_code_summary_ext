@@ -19,7 +19,7 @@
           "ai-summary.model": {
             "type": "string",
             "default": "facebook",
-            "enum": ["facebook", "sshleifer", "giga-chat"]
+            "enum": ["facebook", "sshleifer", "philschmid"]
           }
         }
       }

@@ -2,7 +2,6 @@ package com.microservices.clientlistener
 
 import com.fasterxml.jackson.core.JsonProcessingException
 import org.slf4j.*
-import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -10,8 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.client.RestClient
-import org.springframework.web.reactive.function.client.WebClient
-import java.nio.charset.StandardCharsets
+
 
 @RestController
 class PluginController {
@@ -41,10 +39,10 @@ class PluginController {
     @Throws(JsonProcessingException::class)
     fun summarize(@RequestBody text: SummarizeRequest): ResponseEntity<String?> {
         // clear text
-        val clearedData: SummarizeRequest = SummarizeRequest()
+        val clearedData = SummarizeRequest()
         clearedData.modelName = text.modelName
         clearedData.textToSummarize = clearText(text.textToSummarize)
-        //decide whether to call API
+
 
         val summary: String? = getTextFromHFModel(clearedData)
         return ResponseEntity.status(HttpStatus.OK).body(summary)

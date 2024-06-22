@@ -29,7 +29,7 @@ export function activate(context: vscode.ExtensionContext) {
   }
   function getJsonTextToSummarize(){
     var text = getTextToSummarize();
-    var model = vscode.workspace.getConfiguration('ai-summary').get('model'); // maybe later supported
+    var model = vscode.workspace.getConfiguration('ai-summary').get('model');
     var data = {modelName: model, textToSummarize: text};
 
     return JSON.stringify(data);

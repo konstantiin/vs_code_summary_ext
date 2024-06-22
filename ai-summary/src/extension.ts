@@ -29,7 +29,7 @@ export function activate(context: vscode.ExtensionContext) {
   }
   function getJsonTextToSummarize(){
     var text = getTextToSummarize();
-    var model = "default"; // maybe later supported
+    var model = vscode.workspace.getConfiguration('ai-summary').get('model'); // maybe later supported
     var data = {modelName: model, textToSummarize: text};
 
     return JSON.stringify(data);
@@ -40,6 +40,7 @@ export function activate(context: vscode.ExtensionContext) {
     console.log(arg);
     let postData = getJsonTextToSummarize();
     console.log(postData);
+  
     if (postData === null || postData === undefined){
       vscode.window.showInformationMessage("");
       vscode.window.showErrorMessage("No text to summarize")
@@ -50,11 +51,11 @@ export function activate(context: vscode.ExtensionContext) {
       {
         hostname: 'localhost',
         port: 8080,
-        path: '/get-summary-service/get-summary',
+        path: '/manage-summarization',
         method: 'POST', 
         headers: {
-             'Content-Type': 'application/json',
-             'Content-Length': postData.length
+             'Content-Type': 'application/json ; charset=UTF-8',
+             'Content-Length': Buffer.byteLength(postData, 'utf8')
            }
       },
       (res) =>{

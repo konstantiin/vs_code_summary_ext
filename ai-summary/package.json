@@ -12,6 +12,18 @@
   "activationEvents": [],
   "main": "./out/extension.js",
   "contributes": {
+    "configuration":[
+      {
+        "title": "Summary model",  
+        "properties": {
+          "ai-summary.model": {
+            "type": "string",
+            "default": "facebook",
+            "enum": ["facebook", "sshleifer", "giga-chat"]
+          }
+        }
+      }
+    ],
     "commands": [
       {
         "command": "ai-summary.summarize",

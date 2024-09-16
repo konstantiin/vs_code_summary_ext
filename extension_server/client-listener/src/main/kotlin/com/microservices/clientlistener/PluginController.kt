@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.client.RestClient
 
-
+/**
+ * lkkjkjkrbjvkb
+ */
 @RestController
 class PluginController {
     var logger: Logger = LoggerFactory.getLogger(PluginController::class.java)

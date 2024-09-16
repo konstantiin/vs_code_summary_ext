@@ -31,9 +31,18 @@ class PluginController {
         logger.info(summary)
         return summary
     }
-    fun clearText(text: String): String {
-        val result = Regex("""(<[a-zA-Z/].*>)|(\s\*\s)""").replace(text, " ")
+    fun clearTextFromTags(text: String): String {
+        val result = Regex("""(<[a-zA-Z]+>)|(</[a-zA-Z]+>)""").replace(text, "")
         logger.info("Cleared tags:")
+        logger.info(result)
+        return result
+    }
+    fun removeCommentsSymbols(text: String): String{
+        var result = Regex("""(\n//)|(\n#)|(/\*)|(\s*\*/)|(\s*\*)""").replace(text, "\n")
+        if (result[0] == '/' && result[1] == '/'){
+            result = result.drop(2)
+        }
+        logger.info("Cleared comment symbols:")
         logger.info(result)
         return result
     }
@@ -43,7 +52,7 @@ class PluginController {
         // clear text
         val clearedData = SummarizeRequest()
         clearedData.modelName = text.modelName
-        clearedData.textToSummarize = clearText(text.textToSummarize)
+        clearedData.textToSummarize = removeCommentsSymbols(clearTextFromTags(text.textToSummarize))
 
 
         val summary: String? = getTextFromHFModel(clearedData)

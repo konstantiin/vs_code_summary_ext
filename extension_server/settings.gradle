@@ -2,3 +2,4 @@
 rootProject.name = 'extension_server'
 include 'client-listener'
 include 'eureka-server'
+include 'gradle-build-n-test-tasks'

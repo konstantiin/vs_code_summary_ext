@@ -1,0 +1,17 @@
+
+tasks.register('buildDocker', Exec) {
+    workingDir '../'
+//    dependsOn rootProject.tasks.getByName('build')
+    commandLine 'docker', 'compose', 'build'
+}
+tasks.register('runDocker', Exec) {
+    workingDir '../'
+    dependsOn tasks.buildDocker
+    commandLine 'docker', 'compose', 'up', '--detach'
+    
+}
+
+tasks.register('e2eTest', Exec) {
+    workingDir '../../'
+    commandLine 'python', 'test/e2e.py', 'test/test_config.yml'
+}

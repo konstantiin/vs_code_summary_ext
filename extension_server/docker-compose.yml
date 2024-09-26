@@ -1,12 +1,14 @@
 version: "3"
 services:
   registration:
+    image: kosticccc/eureka-server:latest
     build: eureka-server/
     ports:
       - 8761:8761
     networks:
       - app
   client:
+    image: kosticccc/client-listener:latest
     build: client-listener/
     ports:
       - 8080:8080
@@ -15,6 +17,7 @@ services:
     networks:
       - app
   model:
+    image: kosticccc/model:latest
     build: model/
     ports:
       - 8050:8050
